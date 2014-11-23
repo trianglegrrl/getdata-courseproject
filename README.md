@@ -23,6 +23,9 @@ This script performs the following functions:
  * Turn the activity values from numbers into human-readable text
  * Create column labels that are friendlier to humans (and hopefully R users, too)
  * Generate a tidy data set
+ * Write the tidy set to disk
 
 2. Write a data set that computes the means of the values by activity and subject
- * Use `ddply()` because it allows me to this in the simplest, most straightforward way possible.
+ * Divide the tidy data set by Subject and Activity
+ * apply `colMeans()` to each column
+*  Write the resulting table of means to disk
