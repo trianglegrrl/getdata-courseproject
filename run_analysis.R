@@ -1,3 +1,4 @@
+library(data.table)
 library(plyr)
 
 # Helper function to select just the mean and stddev features 
@@ -18,6 +19,21 @@ humanizeNames = function(vectorb) {
   })
 }
 
+# Helper function to convert numbered activities to their
+# human-readable labels
+getLabeledActivities = function(activities, activityLabels) {
+  # Convert to data.tables to get access to setkey()
+  workingActivities = data.table(activities)
+  workingActivityLabels = data.table(activityLabels)
+
+  # Select the key columns
+  setkey(workingActivities, 'V1')
+  setkey(workingActivityLabels, 'V1')
+
+  # Return the column with readable labels
+  workingActivities[workingActivityLabels, 'V2']
+}
+
 # mergeAndTidyData() - Get and create the merged data and name them properly
 # 
 # This is an ugly function. I would try to refactor it if I had more time, 
@@ -25,12 +41,12 @@ humanizeNames = function(vectorb) {
 # follow.
 mergeAndTidyData = function() {
   # Set up all of the necessary data by reading it in from our data directory
-  xTest = read.table("data/X_test.txt")
-  yTest = read.table("data/y_test.txt")
+  testValues = read.table("data/X_test.txt")
+  testActivities = read.table("data/y_test.txt")
   subjectTest = read.table("data/subject_test.txt")
 
-  xTrain = read.table("data/X_train.txt")
-  yTrain = read.table("data/y_train.txt")
+  trainValues = read.table("data/X_train.txt")
+  trainActivities = read.table("data/y_train.txt")
   subjectTrain = read.table("data/subject_train.txt")
 
   activityLabels = read.table("data/activity_labels.txt")
@@ -39,8 +55,8 @@ mergeAndTidyData = function() {
 
   # Create merged data sets for "test" and "train"
   # (Requirement #1)
-  mergedX = rbind(xTest, xTrain)
-  mergedY = rbind(yTest, yTrain)
+  values = rbind(testValues, trainValues)
+  activities = rbind(testActivities, trainActivities)
   subjects = rbind(subjectTest, subjectTrain)
 
   # We only want mean and sd, so extract a vector with those.
@@ -48,20 +64,20 @@ mergeAndTidyData = function() {
   requiredFeatures = getRequiredFeatures(features)
 
   # Select only the required features
-  mergedX = mergedX[, requiredFeatures]
+  values = values[, requiredFeatures]
 
   # Get human-readable labels for activity values
   # (Requirement #3)
-  mergedY[, 1] = activityLabels[mergedY[, 1], 'V2']
+  cleanedActivities = getLabeledActivities(activities, activityLabels)
 
   # Make the column names more readable and friendlier to future R-inas and R-inos
   # (Requirement #4)
-  names(mergedX) = humanizeNames(features[requiredFeatures, 'V2'])
-  names(mergedY) = "Activity"
+  names(values) = humanizeNames(features[requiredFeatures, 'V2'])
+  names(cleanedActivities) = "Activity"
   names(subjects) = "Subject"
 
   # Return the bound data sets (Activity, Subject, and then the data)
-  cbind(mergedY, subjects, mergedX)
+  cbind(cleanedActivities, subjects, values)
 }
 
 # calculateMeanData() - Get average of each variable and each subject
@@ -71,7 +87,8 @@ calculateMeanData = function (data) {
   # http://www.inside-r.org/packages/cran/plyr/docs/ddply
 
   # Split the frame by subject and activity, compute the means on the
-  # numeric columns, recombine into a frame, and then return that frame
+  # numeric columns, recombine into a frame, and then return that frame.
+  # It's split/apply/combine, but in a single function.
   ddply(data, 
     .(Subject, Activity), 
     function(cols) { 
