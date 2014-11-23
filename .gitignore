@@ -9,3 +9,6 @@
 
 # RStudio files
 .Rproj.user/
+
+# Mac crap
+.DS_Store
