@@ -24,6 +24,11 @@ humanizeNames = function(vectorb) {
   })
 }
 
+# mergeAndTidyData() - Get and create the merged data and name them properly
+# 
+# This is an ugly function. I would try to refactor it if I had more time, 
+# but its ugliness is sequential and step-by-step, so it should be easy to
+# follow.
 mergeAndTidyData = function() {
   # Set up all of the necessary data by reading it in from our data directory
   testValues = read.table("data/X_test.txt")
