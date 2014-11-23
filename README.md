@@ -28,4 +28,4 @@ This script performs the following functions:
 2. Write a data set that computes the means of the values by activity and subject
  * Divide the tidy data set by Subject and Activity
  * apply `colMeans()` to each column
-*  Write the resulting table of means to disk
+ * Write the resulting table of means to disk
