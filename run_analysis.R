@@ -1,3 +1,8 @@
+# install required packages if they aren't installed.
+if(!require('data.table')) { install.packages('data.table') }
+if(!require('plyr')) { install.packages('plyr') }
+
+# load required packages
 library(data.table)
 library(plyr)
 
@@ -19,35 +24,15 @@ humanizeNames = function(vectorb) {
   })
 }
 
-# Helper function to convert numbered activities to their
-# human-readable labels
-getLabeledActivities = function(activities, activityLabels) {
-  # Convert to data.tables to get access to setkey()
-  workingActivities = data.table(activities)
-  workingActivityLabels = data.table(activityLabels)
-
-  # Select the key columns
-  setkey(workingActivities, 'V1')
-  setkey(workingActivityLabels, 'V1')
-
-  # Return the column with readable labels
-  workingActivities[workingActivityLabels, 'V2']
-}
-
-# mergeAndTidyData() - Get and create the merged data and name them properly
-# 
-# This is an ugly function. I would try to refactor it if I had more time, 
-# but its ugliness is sequential and step-by-step, so it should be easy to
-# follow.
 mergeAndTidyData = function() {
   # Set up all of the necessary data by reading it in from our data directory
   testValues = read.table("data/X_test.txt")
   testActivities = read.table("data/y_test.txt")
-  subjectTest = read.table("data/subject_test.txt")
+  testSubjects = read.table("data/subject_test.txt")
 
   trainValues = read.table("data/X_train.txt")
   trainActivities = read.table("data/y_train.txt")
-  subjectTrain = read.table("data/subject_train.txt")
+  trainSubjects = read.table("data/subject_train.txt")
 
   activityLabels = read.table("data/activity_labels.txt")
 
@@ -57,7 +42,7 @@ mergeAndTidyData = function() {
   # (Requirement #1)
   values = rbind(testValues, trainValues)
   activities = rbind(testActivities, trainActivities)
-  subjects = rbind(subjectTest, subjectTrain)
+  subjects = rbind(testSubjects, trainSubjects)
 
   # We only want mean and sd, so extract a vector with those.
   # (Requirement #2)
@@ -68,35 +53,22 @@ mergeAndTidyData = function() {
 
   # Get human-readable labels for activity values
   # (Requirement #3)
-  cleanedActivities = getLabeledActivities(activities, activityLabels)
+  activities[, 1] = activityLabels[activities[, 1], 'V2']
 
   # Make the column names more readable and friendlier to future R-inas and R-inos
   # (Requirement #4)
   names(values) = humanizeNames(features[requiredFeatures, 'V2'])
-  names(cleanedActivities) = "Activity"
+  names(activities) = "Activity"
   names(subjects) = "Subject"
 
   # Return the bound data sets (Activity, Subject, and then the data)
-  cbind(cleanedActivities, subjects, values)
+  cbind(activities, subjects, values)
 }
 
 # calculateMeanData() - Get average of each variable and each subject
 # (Requirement #5)
 calculateMeanData = function (data) {
-  # ddply is very, very cool.
-  # http://www.inside-r.org/packages/cran/plyr/docs/ddply
-
-  # Split the frame by subject and activity, compute the means on the
-  # numeric columns, recombine into a frame, and then return that frame.
-  # It's split/apply/combine, but in a single function.
-  ddply(data, 
-    .(Subject, Activity), 
-    function(cols) { 
-      numericCols = sapply(cols, is.numeric)
-
-      colMeans(cols[, numericCols])
-    }
-  )
+  ddply(data, .(Activity, Subject), numcolwise(mean))
 }
 
 # runAnalysis() runs the analysis. 
