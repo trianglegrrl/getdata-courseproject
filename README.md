@@ -8,11 +8,11 @@ Sensored by Alaina Hardie, @trianglegrrl
 
 * This README
 * `CODEBOOK.md`, a code book for the source and tidied data set
-* `tests.R`, the unit tests for the functions
+* `tests.R`, the unit tests for the functions (non-developers, see comments in `tests.R` about why unit testing is useful)
 * `fixtures/*`, fixture data for the unit tests
 * `data/*`, data from the [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
 * `run_analysis.R`, the main code for the program
-* The two data sets, the contents of which are described in `CODEBOOK.md`: `tidy_dataset.txt` and `computed_means.txt`. 
+* The two data sets, the contents of which are described in `CODEBOOK.md`: `tidy_dataset.txt` and `computed_means.txt`.
 
 ### run_analysis.R
 
