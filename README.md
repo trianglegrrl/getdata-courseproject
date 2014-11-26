@@ -8,8 +8,10 @@ Sensored by Alaina Hardie, @trianglegrrl
 
 * This README
 * `CODEBOOK.md`, a code book for the source and tidied data set
-* Data from the [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
-* These data are tidied by the `runAnalysis()` function (and its helper functions) in `run_analysis.R` and it creates two data sets.
+* `tests.R`, the unit tests for the functions
+* `fixtures/*`, fixture data for the unit tests
+* `data/*`, data from the [Human Activity Recognition Using Smartphones Data Set](http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones).
+* `run_analysis.R`, the main code for the program
 * The two data sets, the contents of which are described in `CODEBOOK.md`: `tidy_dataset.txt` and `computed_means.txt`. 
 
 ### run_analysis.R

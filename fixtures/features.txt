@@ -1,0 +1,4 @@
+"V1" "V2"
+"528" 528 "fBodyBodyAccJerkMag-kurtosis()"
+"529" 529 "fBodyBodyGyroMag-mean()"
+"530" 530 "fBodyBodyGyroMag-std()"
