@@ -21,8 +21,14 @@ For example, in R, consider that I have a function called `add(x, y)` that retur
 If `add(1, 4)` doesn't return `5`, it means the function is broken, and
 you should go back to fix it.
 
+## Move fast and break stuff
+
 It doesn't seem like a big deal with a function like this, but consider
 that you had a more complicated function. If you are changing something
 in that function, one small mistake could cascade through other parts
 of your program. Unit tests help you identify a problem and fix it before
 you roll your code out for people to use and grants to fund.
+
+## Executable documentation
+
+The other use of unit tests is as "executable documentation". This means you can run tests that return results, and if you look at the test, it tells you exactly how the function/module/method/whatever should behave.
