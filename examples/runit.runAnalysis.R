@@ -46,10 +46,14 @@ test.humanizeNames = function() {
 
 #### PENDING TESTS ####
 
-# test.calculateMeanData = function () {
-#   checkTrue(TRUE)
-# }
+test.calculateMeanData = function() {
+  warning("test.calculateMeanData is pending. You still need to write this test.")
+}
 
-# test.runAnalysis = function () {
-#   checkTrue(TRUE)
-# }
+test.runAnalysis = function() {
+  warning("test.runAnalysis is pending. You still need to write this test.")
+}
+
+test.mergeAndTidyData = function() {
+  warning("test.mergeAndTidyData is pending. Don't even think about writing this without refactoring into smaller methods.")
+}
