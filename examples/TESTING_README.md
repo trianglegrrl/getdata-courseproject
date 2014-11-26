@@ -11,8 +11,7 @@ For example, in R, consider that I have a function called `add(x, y)` that retur
     if(result != 5 ) { abort(paste("I expected 5 but got ", result) }
 ```
 
-...except we are using RUnit, which lets us condense that to an uglier
-but more useful:
+...except we are using RUnit, which lets us condense that to a friendlier:
 
 ```
     result = add(1, 4)
