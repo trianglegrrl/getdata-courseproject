@@ -1,4 +1,4 @@
-# getdata-009-courseproject
+# getdata-courseproject
 
 Solution to the [Getting and Cleaning Data](https://class.coursera.org/getdata-009/) course project.
 
